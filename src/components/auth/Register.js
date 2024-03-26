@@ -17,7 +17,7 @@ const Register = () => {
       // Create user with email and password using Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-        
+      
       // Add user data to Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         username: username,

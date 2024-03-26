@@ -20,4 +20,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 const signIn = signInWithEmailAndPassword;
+
+export const timestampToDateString = (timestamp) => {
+  const date = timestamp.toDate();
+  return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+};
+
 export { signIn, app, auth, firestore };

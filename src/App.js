@@ -17,6 +17,7 @@ import AdminRequests from './components/pages/admin/AdminRequests.js';
 import OrganizerDashboard from './components/dashboard/OrganizerDashboard';
 import OrganizerProfile from './components/pages/organizer/OrganizerProfile.js';
 import OrganizerEvents from './components/pages/organizer/OrganizerEvents.js';
+import OrganizerCreateEvents from './components/pages/organizer/CreateEvent.js'
 import OrganizerRequests from './components/pages/organizer/OrganizerRequests.js';
 // css
 import './css/login.css';
@@ -44,6 +45,7 @@ function App() {
         <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
         <Route path="/organizer-profile" element={<OrganizerProfile />} />
         <Route path="/organizer-events" element={<OrganizerEvents />} />
+        <Route path="/create-event" element={<OrganizerCreateEvents />} />
         <Route path="/organizer-requests" element={<OrganizerRequests />} />
       </Routes>
     </BrowserRouter>
