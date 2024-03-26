@@ -1,7 +1,26 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+
 
 const UserNotifications= () => {
+  const [ permissionStatus, setPermissionStatus ] = useState(Notification.permission);
+
+  function askPermission() {
+    if(!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    } else if(Notification.permission === "default") {
+      Notification.requestPermission().then(permission => {
+        setPermissionStatus(permission);
+        if(permission === "granted") {
+          alert("You have granted permission to show push notifications")
+        } else {
+          alert("You have denied permission to show push notifications")
+        }
+      });
+    }
+  }
+
   return (
     <section>
       <div className="menu-header">
@@ -17,7 +36,21 @@ const UserNotifications= () => {
           </ul>
         </nav>
       </div>
-      {/* Your dashboard content goes here */}
+      <div className="content">
+        <h3>Notifications</h3>
+        
+        {(permissionStatus === "default") ? (
+          <button onClick={() => askPermission()}>Enable Push Notifications</button>
+        ) : (
+          (permissionStatus === "granted") ? (
+            <h1>Push Notifications are enabled.</h1>
+          ) : (
+            <h1> Push Notifications are disabled.</h1>
+          )
+        )}
+
+        <p>There are no notifications.</p>
+      </div>
     </section>
   );
 };

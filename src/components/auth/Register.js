@@ -22,7 +22,7 @@ const Register = () => {
       await setDoc(doc(firestore, "users", user.uid), {
         username: username,
         email: email,
-        role: 'user' // Set default role as 'user'
+        role: 'user', // Set default role as 'user'
       });
 
       // Redirect to dashboard after successful registration

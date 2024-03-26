@@ -1,7 +1,9 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 
 const UserDashboard = () => {
+
   return (
     <section>
       <div className="menu-header">
@@ -17,7 +19,6 @@ const UserDashboard = () => {
           </ul>
         </nav>
       </div>
-      {/* Your dashboard content goes here */}
     </section>
   );
 };
