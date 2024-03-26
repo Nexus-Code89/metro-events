@@ -141,15 +141,16 @@ const UserRequests = () => {
         <div>
           <h2>User Already Submitted a Request</h2>
           <h3>Organizer Access Request</h3>
+          
           <ul>
             {userRequests.map((request) => ( // displayed when request is pending
-              <li key={request.id}>
+              request && <li key={request.id}>
                 <strong>Reason:</strong> {request.reason} <br />
                 <strong>Status:</strong> {request.status} <br />
               </li>
             ))}
           </ul>
-          {userRequests[0].status === 'declined' && ( // displayed when request is declined
+          {userRequests[0] && userRequests[0].status === 'declined' && ( // displayed when request is declined
             <button onClick={handleResubmit}>Edit and Resubmit Request</button>
           )}
         </div>
