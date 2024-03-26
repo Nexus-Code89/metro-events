@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
+import OrganizerNav from './OrganizerNav';
 
 const OrganizerRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -56,15 +57,7 @@ const OrganizerRequests = () => {
     <section>
       <div className="menu-header">
         <h2>Organizer Requests</h2>
-        <nav>
-          <ul>
-            <li><Link to="/organizer-dashboard">Home</Link></li>
-            <li><Link to="/organizer-profile">Profile</Link></li>
-            <li><Link to="/organizer-events">Events</Link></li>
-            <li><Link to="/organizer-requests">Requests</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-          </ul>
-        </nav>
+        <OrganizerNav />
       </div>
       <div>
         <h3>Event Requests:</h3>
