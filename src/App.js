@@ -3,11 +3,7 @@ import Login from './components/auth/Login.js';
 import Register from './components/auth/Register.js';
 import Logout from './components/auth/Logout'; 
 // user
-import UserDashboard from './components/dashboard/UserDashboard.js';
-import UserProfile from './components/pages/user/UserProfile'; 
-import UserEvents from './components/pages/user/UserEvents'; 
-import UserRequests from './components/pages/user/UserRequests';
-import UserNotifications from './components/pages/user/UserNotifications.js'
+import UserRoutes from './UserRoutes';
 // admin
 import AdminDashboard from './components/dashboard/AdminDashboard';
 import AdminAccounts from './components/pages/admin/AdminAccounts.js';
@@ -18,6 +14,9 @@ import OrganizerDashboard from './components/dashboard/OrganizerDashboard';
 import OrganizerProfile from './components/pages/organizer/OrganizerProfile.js';
 import OrganizerEvents from './components/pages/organizer/OrganizerEvents.js';
 import OrganizerRequests from './components/pages/organizer/OrganizerRequests.js';
+
+
+
 // css
 import './css/login.css';
 
@@ -30,11 +29,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
         {/* Protected routes for user */}
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/user-events" element={<UserEvents />} />
-        <Route path="/user-requests" element={<UserRequests />} />
-        <Route path="/user-notifications" element={<UserNotifications />} />
+        <Route path="/*" element={<UserRoutes />} />
         {/* Protected routes for admin */}
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-manage-accounts" element={<AdminAccounts />} />

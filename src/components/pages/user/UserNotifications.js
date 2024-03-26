@@ -1,32 +1,12 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { NotificationContext } from '../../contexts/NotificationContext';
 import './UserNotifications.css';
+import UserNav from './UserNav';
 
 
 const UserNotifications= () => {
-  const notifs_test = [
-    {
-      id: '1',
-      data: {
-        title: "Your new event is coming up!",
-        event: "Event Name",
-        message: 'This is a test message for the notification.',
-        timestamp: "1 day ago",
-        read: false
-      }
-    },
-    {
-      id: '2',
-      data: {
-        title: "Another Notification",
-        event: "Another Event",
-        timestamp: "8 hours ago",
-        message: 'This is a test message for the notification.',
-        read: true
-      }
-    },
-  ];
-
+  
+  const { unreadCount, notifications, setNotifications } = useContext(NotificationContext);
   const toggleReadStatus = (id) => {
     setNotifications(notifications.map(notification => 
       notification.id === id ? {...notification, data: {...notification.data, read: !notification.data.read}} : notification
@@ -34,18 +14,7 @@ const UserNotifications= () => {
   }
 
   const [ permissionStatus, setPermissionStatus ] = useState(Notification.permission);
-
-  // change when there are events
-  const [ notifications, setNotifications ] = useState(notifs_test);
-  const [unreadCount, setUnreadCount] = useState(0); // New state variable for unread count
-
-  
-
-  useEffect(() => {
-    const count = notifications.filter(notification => !notification.data.read).length;
-    setUnreadCount(count);
-  }, [notifications]);
-  
+ 
   function askPermission() {
     if(!("Notification" in window)) {
       alert("This browser does not support desktop notification");
@@ -65,16 +34,7 @@ const UserNotifications= () => {
     <section>
       <div className="menu-header">
         <h2>User Notifications</h2>
-        <nav>
-          <ul>
-            <li><Link to="/user-dashboard">Home</Link></li>
-            <li><Link to="/user-profile">Profile</Link></li>
-            <li><Link to="/user-events">Events</Link></li>
-            <li><Link to="/user-requests">Requests</Link></li>
-            <li><Link to="/user-notifications">Notifications</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-          </ul>
-        </nav>
+        <UserNav />
       </div>
       <div className="content">
         <h3>Notifications ({unreadCount})</h3>
