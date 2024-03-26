@@ -8,12 +8,19 @@ import { doc, setDoc } from "firebase/firestore";
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [reenteredPassword, setReenteredPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+      if (password !== reenteredPassword) {
+        setError('Passwords do not match.');
+        return; // Exit early if passwords don't match
+      }
+
       // Create user with email and password using Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -25,16 +32,17 @@ const Register = () => {
         role: 'user', // Set default role as 'user'
       });
 
-      // Redirect to dashboard after successful registration
+      // Redirect to login page after successful registration
       navigate('/login');
     } catch (error) {
-      console.error('Error registering user:', error.message);
+      setError(error.message); // Set error message based on Firebase error
     }
   };
 
   return (
     <div>
       <h2>Register</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleRegister}>
         <input
           type="text"
@@ -53,6 +61,12 @@ const Register = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Re-enter Password"
+          value={reenteredPassword}
+          onChange={(e) => setReenteredPassword(e.target.value)}
         />
         <button type="submit">Register</button>
       </form>

@@ -1,65 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, where, query } from 'firebase/firestore';
-import { firestore } from '../../../firebase/firebase';
-import { getAuth } from 'firebase/auth';
-import OrganizerNav from './OrganizerNav';
+import { auth, firestore } from '../../../firebase/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { doc, setDoc } from "firebase/firestore"; 
 
-const OrganizerEvents = () => {
-  const [events, setEvents] = useState([]);
-  const auth = getAuth();
-  const user = auth.currentUser;
+const Register = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [reenteredPassword, setReenteredPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      const fetchEvents = async () => {
-        try {
-          const eventsRef = collection(firestore, 'events');
-          const eventsQuery = query(eventsRef, where('organizerId', '==', user.uid));
-          const querySnapshot = await getDocs(eventsQuery);
-          const eventsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setEvents(eventsList);
-        } catch (error) {
-          console.error('Error fetching events:', error.message);
-        }
-      };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      if (password !== reenteredPassword) {
+        setError('Passwords do not match.');
+        return; // Exit early if passwords don't match
+      }
 
-      fetchEvents();
+      // Create user with email and password using Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Add user data to Firestore
+      await setDoc(doc(firestore, "users", user.uid), {
+        username: username,
+        email: email,
+        role: 'user', // Set default role as 'user'
+      });
+
+      // Redirect to login page after successful registration
+      navigate('/login');
+    } catch (error) {
+      setError(error.message); // Set error message based on Firebase error
     }
-  }, [user]);
+  };
 
   return (
-    <section>
-      <div className="menu-header">
-        <h2>Organizer Events</h2>
-        <OrganizerNav />
-      </div>
-      <nav>
-        <ul>
-          <li><Link to="/organizer-dashboard">Home</Link></li>
-          <li><Link to="/organizer-profile">Profile</Link></li>
-          <li><Link to="/create-event">Create Event</Link></li>
-          <li><Link to="/organizer-requests">Requests</Link></li>
-          <li><Link to="/logout">Logout</Link></li>
-        </ul>
-      </nav>
-      <div>
-        <h3>My Events:</h3>
-        <ul>
-          {events.map(event => (
-            <li key={event.id}>
-              <strong>Event Name:</strong> {event.eventName} <br />
-              <strong>Date:</strong> {event.eventDate} <br />
-              <strong>Location:</strong> {event.eventLocation} <br />
-              <strong>Start Time:</strong> {event.startTime} <br />
-              <strong>End Time:</strong> {event.endTime} <br />
-              <strong>Description:</strong> {event.eventDescription} <br />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <div>
+      <h2>Register</h2>
+      <form onSubmit={handleRegister}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Re-enter Password"
+          value={reenteredPassword}
+          onChange={(e) => setReenteredPassword(e.target.value)}
+        />
+        <button type="submit">Register</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </form>
+      <p>Already registered? <Link to="/login">Login here</Link></p>
+    </div>
   );
 };
 
-export default OrganizerEvents;
+export default Register;

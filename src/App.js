@@ -15,11 +15,8 @@ import OrganizerProfile from './components/pages/organizer/OrganizerProfile.js';
 import OrganizerEvents from './components/pages/organizer/OrganizerEvents.js';
 import OrganizerCreateEvents from './components/pages/organizer/CreateEvent.js'
 import OrganizerRequests from './components/pages/organizer/OrganizerRequests.js';
-
-
-
 // css
-import './css/login.css';
+import './css/styles.css';
 
 function App() {
   return (

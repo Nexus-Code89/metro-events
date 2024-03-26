@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
 import EventRequestForm from './EventRequestForm'; // Import EventRequestForm component
+import '../../../css/UserEvents.css'
 
 const UserEvents = () => {
   const [events, setEvents] = useState([]);

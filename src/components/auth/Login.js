@@ -9,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -35,6 +36,8 @@ const Login = () => {
           break;
       }
     } catch (error) {
+      setError('Incorrect Email/Password');
+      // Display error message using toast notification
       toast.error('Incorrect Email/Password', {
         position: "top-center",
         autoClose: 5000,
@@ -62,6 +65,7 @@ const Login = () => {
         pauseOnHover
         theme="dark"
       />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <h2>Metro Events</h2> {/* App name added */}
       <form onSubmit={handleLogin}>
         <div className="form-group">
