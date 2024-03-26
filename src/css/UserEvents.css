@@ -1,37 +1,36 @@
 /* UserEvents.css */
 
 .user-events-container {
-    margin-top: 20px;
-  }
-  
-  .event-item {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .event-details {
-    margin-left: 20px;
-  }
-  
-  .event-details strong {
-    font-weight: bold;
-  }
-  
-  .event-actions {
-    margin-top: 10px;
-  }
-  
-  .event-actions button {
-    margin-right: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .event-actions button:hover {
-    background-color: #0056b3;
-  }
-  
+  margin-top: 20px;
+}
+
+.event-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.event-details {
+  margin-left: 20px;
+}
+
+.event-details strong {
+  font-weight: bold;
+}
+
+.event-actions {
+  margin-top: 10px;
+}
+
+.event-actions button {
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.event-actions button:hover {
+  background-color: #0056b3;
+}

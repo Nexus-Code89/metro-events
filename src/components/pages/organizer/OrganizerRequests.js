@@ -29,7 +29,8 @@ const OrganizerRequests = () => {
     const newNotification = {
       message: message,
       timestamp: new Date(),
-      userId: userId,
+      read: false,
+      userId: userId.username,
     }
 
     try {

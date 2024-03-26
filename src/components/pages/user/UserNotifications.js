@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { NotificationContext } from '../../contexts/NotificationContext';
-import './UserNotifications.css';
+import '../../../css/UserNotifications.css'
 import UserNav from './UserNav';
 
 
@@ -47,11 +47,9 @@ const UserNotifications= () => {
         {notifications.length > 0 ? (
           notifications.map((notification) => (
             <div key={notification.id} className="notification-card">
-              <h4 className="notification-title">{notification.data.title}</h4>
-              <p className="notification-event">{notification.data.event}</p>
               <p className="notification-timestamp">{notification.data.timestamp}</p>
-              <p className="notification-status">Status: {notification.data.read ? 'Read' : 'Unread'}</p>
               <p className="notification-message">{notification.data.message}</p>
+              <p className="notification-status">Status: {notification.data.read ? 'Read' : 'Unread'}</p>
               {notification.data.read ? 
                 <button className="mark-unread-button" onClick={() => toggleReadStatus(notification.id)}>Mark as Unread</button> :  
                 <button className="mark-read-button" onClick={() => toggleReadStatus(notification.id)}>Mark as Read</button>
