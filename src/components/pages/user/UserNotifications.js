@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import { NotificationContext } from '../../contexts/NotificationContext';
 import './UserNotifications.css';
 import UserNav from './UserNav';
@@ -6,29 +6,24 @@ import UserNav from './UserNav';
 
 const UserNotifications= () => {
   
-  const { unreadCount, notifications, setNotifications } = useContext(NotificationContext);
-  const toggleReadStatus = (id) => {
-    setNotifications(notifications.map(notification => 
-      notification.id === id ? {...notification, data: {...notification.data, read: !notification.data.read}} : notification
-    ));
-  }
+  const { unreadCount, notifications, toggleReadStatus} = useContext(NotificationContext);
+  
 
-  const [ permissionStatus, setPermissionStatus ] = useState(Notification.permission);
- 
-  function askPermission() {
-    if(!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    } else if(Notification.permission === "default") {
-      Notification.requestPermission().then(permission => {
-        setPermissionStatus(permission);
-        if(permission === "granted") {
-          alert("You have granted permission to show push notifications")
-        } else {
-          alert("You have denied permission to show push notifications")
-        }
-      });
-    }
-  }
+  //const [ permissionStatus, setPermissionStatus ] = useState(Notification.permission);
+  // function askPermission() {
+  //   if(!("Notification" in window)) {
+  //     alert("This browser does not support desktop notification");
+  //   } else if(Notification.permission === "default") {
+  //     Notification.requestPermission().then(permission => {
+  //       setPermissionStatus(permission);
+  //       if(permission === "granted") {
+  //         alert("You have granted permission to show push notifications")
+  //       } else {
+  //         alert("You have denied permission to show push notifications")
+  //       }
+  //     });
+  //   }
+  // }
 
   return (
     <section>
@@ -37,9 +32,9 @@ const UserNotifications= () => {
         <UserNav />
       </div>
       <div className="content">
-        <h3>Notifications ({unreadCount})</h3>
+        <h3>Notifications {unreadCount > 0 ? `(${unreadCount})` : ''}</h3>
         
-        {(permissionStatus === "default") ? (
+        {/* {(permissionStatus === "default") ? (
           <button onClick={() => askPermission()}>Enable Push Notifications</button>
         ) : (
           (permissionStatus === "granted") ? (
@@ -47,7 +42,7 @@ const UserNotifications= () => {
           ) : (
             <h1> Push Notifications are disabled.</h1>
           )
-        )}
+        )} */}
 
         {notifications.length > 0 ? (
           notifications.map((notification) => (
