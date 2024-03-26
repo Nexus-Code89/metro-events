@@ -27,8 +27,10 @@ const Login = () => {
       const docRef = doc(firestore, "users", user.uid);
       const userDoc = await getDoc(docRef);
       const userData = userDoc.data();
+      userData.userId = user.uid;
       
       if (userData) {
+
         setUser(userData)
 
         // Redirect based on user role
@@ -40,6 +42,7 @@ const Login = () => {
             navigate('/organizer-dashboard');
             break;
           default:
+            console.log(user)
             navigate('/user-dashboard');
             break;
         }

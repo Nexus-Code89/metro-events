@@ -1,6 +1,5 @@
 // UserRoutes.js
 import { useRoutes } from 'react-router-dom';
-import { UserProvider } from './components/contexts/UserContext.js';
 import { NotificationProvider } from './components/contexts/NotificationContext.js';
 import UserDashboard from './components/dashboard/UserDashboard.js';
 import UserProfile from './components/pages/user/UserProfile'; 
@@ -17,5 +16,5 @@ export default function UserRoutes() {
     { path: '/user-notifications', element: <UserNotifications /> },
   ]);
 
-  return <UserProvider><NotificationProvider>{element}</NotificationProvider></UserProvider>;
+  return <NotificationProvider>{element}</NotificationProvider>;
 }

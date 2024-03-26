@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
-import { getAuth } from 'firebase/auth';
+import { UserContext } from '../../contexts/UserContext';
 
 const EventRequestForm = ({ eventId, organizerId, organizerEmail, eventName, eventDate, eventLocation }) => {
   const [message, setMessage] = useState('');
+  const { user } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const userId = user.uid;
+      const userId = user.userId;
 
       // Add request to eventRequests collection
       await addDoc(collection(firestore, 'eventRequests'), {
@@ -26,6 +25,7 @@ const EventRequestForm = ({ eventId, organizerId, organizerEmail, eventName, eve
         eventLocation,
       });
 
+      console.log('userId')
       setMessage('Request sent successfully!');
     } catch (error) {
       console.error('Error sending request:', error.message);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import { collection, getDocs, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
 import OrganizerNav from './OrganizerNav';
@@ -22,7 +22,8 @@ const OrganizerRequests = () => {
   }, []);
 
   const notifyUser = async (userId, eventId, status) => {
-    const notificationCollectionRef = collection(firestore, 'notifications');
+    
+    console.log('Notifying User')
 
     let message = `Your request to join the ${eventId.name} has been ${status === 'success' ? 'accepted' : 'declined'}.`;
 
@@ -30,10 +31,11 @@ const OrganizerRequests = () => {
       message: message,
       timestamp: new Date(),
       read: false,
-      userId: userId.username,
+      userId: userId,
     }
-
+    console.log('Adding Notifications')
     try {
+      const notificationCollectionRef = collection(firestore, 'notifications');
       const docRef = await addDoc(notificationCollectionRef, newNotification);
       console.log('Notification added with ID:', docRef.id);
     } catch(e) {
@@ -63,7 +65,7 @@ const OrganizerRequests = () => {
     }
   };
 
-  const handleDeclineRequest = async (requestId, userId, eventId) => {
+  const handleDeclineRequest = async (requestId, eventId, userId) => {
     try {
       const requestDocRef = doc(firestore, 'eventRequests', requestId);
       await updateDoc(requestDocRef, { status: 'Declined' });
@@ -93,7 +95,7 @@ const OrganizerRequests = () => {
               <strong>Event Location:</strong> {request.eventLocation} <br />
               <strong>Organizer ID:</strong> {request.organizerId} <br />
               <strong>Organizer Email:</strong> {request.organizerEmail} <br />
-              <strong>User ID:</strong> {request.userId} <br />
+              <strong>UserId:</strong> {request.userId} <br />
               <strong>Message:</strong> {request.message} <br />
               <strong>Status:</strong> {request.status} <br />
               {request.status === 'Pending' && (
