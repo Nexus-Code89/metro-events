@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, doc, getDoc, updateDoc} from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
 import { UserContext } from './UserContext';
 
@@ -34,13 +34,34 @@ export const NotificationProvider = ({ children }) => {
     fetchUserNotifications ();
   }, [user]);
 
+  const toggleReadStatus = async (notificationId) => {
+    try {
+      const notificationDocRef = doc(firestore, 'notifications', notificationId);
+      const notificationDoc = await getDoc(notificationDocRef);
+      if (notificationDoc.exists()) {
+        const notificationData = notificationDoc.data();
+        await updateDoc(notificationDocRef, { read: !notificationData.read });
+        const updatedNotifications = notifications.map(notification => {
+          if (notification.id === notificationId) {
+            return { ...notification, read: !notificationData.read };
+          }
+          return notification;
+        });
+        setNotifications(updatedNotifications);
+      }
+    } catch (error) {
+      console.error('Error updating notification:', error.message);
+    }
+  }
+
+
   useEffect(() => {
     const count = notifications.filter(notification => !notification.read).length;
     setUnreadCount(count);
   }, [notifications]);
 
   return (
-    <NotificationContext.Provider value={{ notifications, setNotifications, unreadCount }}>
+    <NotificationContext.Provider value={{ notifications, setNotifications, unreadCount, toggleReadStatus }}>
       {children}
     </NotificationContext.Provider>
   );
