@@ -1,0 +1,15 @@
+.event {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.event h3 {
+  margin: 0;
+  color: orange;
+}
+
+.event p {
+  margin: 5px 0;
+}

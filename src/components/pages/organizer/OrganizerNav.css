@@ -1,0 +1,21 @@
+.organizer-nav {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+.organizer-nav li {
+  padding: 15px 0;
+}
+
+.organizer-nav li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+}
+
+.organizer-nav li a:hover {
+  color: orange;
+}

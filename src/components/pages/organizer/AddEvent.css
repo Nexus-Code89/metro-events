@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .create-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    width: 500px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .create-event .form-group {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+  
+  .create-event .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .create-event .form-group input,
+  .create-event .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .create-event button {
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .create-event button:hover {
+    background-color: darkorange;
+  }
+  
