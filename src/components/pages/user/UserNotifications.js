@@ -1,11 +1,51 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import './UserNotifications.css';
 
 
 const UserNotifications= () => {
+  const notifs_test = [
+    {
+      id: '1',
+      data: {
+        title: "Your new event is coming up!",
+        event: "Event Name",
+        message: 'This is a test message for the notification.',
+        timestamp: "1 day ago",
+        read: false
+      }
+    },
+    {
+      id: '2',
+      data: {
+        title: "Another Notification",
+        event: "Another Event",
+        timestamp: "8 hours ago",
+        message: 'This is a test message for the notification.',
+        read: true
+      }
+    },
+  ];
+
+  const toggleReadStatus = (id) => {
+    setNotifications(notifications.map(notification => 
+      notification.id === id ? {...notification, data: {...notification.data, read: !notification.data.read}} : notification
+    ));
+  }
+
   const [ permissionStatus, setPermissionStatus ] = useState(Notification.permission);
 
+  // change when there are events
+  const [ notifications, setNotifications ] = useState(notifs_test);
+  const [unreadCount, setUnreadCount] = useState(0); // New state variable for unread count
+
+  
+
+  useEffect(() => {
+    const count = notifications.filter(notification => !notification.data.read).length;
+    setUnreadCount(count);
+  }, [notifications]);
+  
   function askPermission() {
     if(!("Notification" in window)) {
       alert("This browser does not support desktop notification");
@@ -37,7 +77,7 @@ const UserNotifications= () => {
         </nav>
       </div>
       <div className="content">
-        <h3>Notifications</h3>
+        <h3>Notifications ({unreadCount})</h3>
         
         {(permissionStatus === "default") ? (
           <button onClick={() => askPermission()}>Enable Push Notifications</button>
@@ -49,7 +89,24 @@ const UserNotifications= () => {
           )
         )}
 
-        <p>There are no notifications.</p>
+        {notifications.length > 0 ? (
+          notifications.map((notification) => (
+            <div key={notification.id} className="notification-card">
+              <h4 className="notification-title">{notification.data.title}</h4>
+              <p className="notification-event">{notification.data.event}</p>
+              <p className="notification-timestamp">{notification.data.timestamp}</p>
+              <p className="notification-status">Status: {notification.data.read ? 'Read' : 'Unread'}</p>
+              <p className="notification-message">{notification.data.message}</p>
+              {notification.data.read ? 
+                <button className="mark-unread-button" onClick={() => toggleReadStatus(notification.id)}>Mark as Unread</button> :  
+                <button className="mark-read-button" onClick={() => toggleReadStatus(notification.id)}>Mark as Read</button>
+              }
+            </div>
+          ))
+        ) : (
+          <p>There are no notifications.</p>
+        )}
+
       </div>
     </section>
   );
