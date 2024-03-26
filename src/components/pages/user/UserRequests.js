@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
 import { getAuth } from 'firebase/auth';
+import UserNav from './UserNav';
+
 // Organizer Access Request
 const UserRequests = () => {
   const [name, setName] = useState('');
@@ -102,16 +104,8 @@ const UserRequests = () => {
     <section>
       <div className="menu-header">
         <h2>User Requests</h2>
-        <nav>
-          <ul>
-            <li><Link to="/user-dashboard">Home</Link></li>
-            <li><Link to="/user-profile">Profile</Link></li>
-            <li><Link to="/user-events">Events</Link></li>
-            <li><Link to="/user-requests">Requests</Link></li>
-            <li><Link to="/user-notifications">Notifications</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-          </ul>
-        </nav>
+        <UserNav />
+        
       </div>
       {displayForm ? ( // displayed when has no existing request
         <div>

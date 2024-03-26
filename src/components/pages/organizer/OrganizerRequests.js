@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
 import OrganizerNav from './OrganizerNav';
 
@@ -22,6 +21,25 @@ const OrganizerRequests = () => {
     fetchRequests();
   }, []);
 
+  const notifyUser = async (userId, eventId, status) => {
+    const notificationCollectionRef = collection(firestore, 'notifications');
+
+    let message = `Your request to join the ${eventId.name} has been ${status === 'success' ? 'accepted' : 'declined'}.`;
+
+    const newNotification = {
+      message: message,
+      timestamp: new Date(),
+      userId: userId,
+    }
+
+    try {
+      const docRef = await addDoc(notificationCollectionRef, newNotification);
+      console.log('Notification added with ID:', docRef.id);
+    } catch(e) {
+      console.error('Error adding notification:', e.message)
+    }
+  }
+
   const handleAcceptRequest = async (requestId, eventId, userId) => {
     try {
       const requestDocRef = doc(firestore, 'eventRequests', requestId);
@@ -36,18 +54,22 @@ const OrganizerRequests = () => {
       }
 
       console.log('Request accepted successfully.');
-      // Optionally, you can perform additional actions after accepting the request
+
+      notifyUser(userId, eventId, 'success');
+ 
     } catch (error) {
       console.error('Error accepting request:', error.message);
     }
   };
 
-  const handleDeclineRequest = async (requestId) => {
+  const handleDeclineRequest = async (requestId, userId, eventId) => {
     try {
       const requestDocRef = doc(firestore, 'eventRequests', requestId);
       await updateDoc(requestDocRef, { status: 'Declined' });
       console.log('Request declined successfully.');
-      // Optionally, you can perform additional actions after declining the request
+
+      notifyUser(userId, eventId, 'failed')
+    
     } catch (error) {
       console.error('Error declining request:', error.message);
     }
@@ -76,7 +98,7 @@ const OrganizerRequests = () => {
               {request.status === 'Pending' && (
                 <>
                   <button onClick={() => handleAcceptRequest(request.id, request.eventId, request.userId)}>Accept</button>
-                  <button onClick={() => handleDeclineRequest(request.id)}>Decline</button>
+                  <button onClick={() => handleDeclineRequest(request.id, request.eventId, request.userId)}>Decline</button>
                 </>
               )}
             </li>

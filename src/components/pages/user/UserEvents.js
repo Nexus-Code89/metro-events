@@ -4,6 +4,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { firestore } from '../../../firebase/firebase';
 import EventRequestForm from './EventRequestForm'; // Import EventRequestForm component
 import '../../../css/UserEvents.css'
+import UserNav from './UserNav';
 
 const UserEvents = () => {
   const [events, setEvents] = useState([]);
@@ -27,16 +28,7 @@ const UserEvents = () => {
     <section>
       <div className="menu-header">
         <h2>User Events</h2>
-        <nav>
-          <ul>
-            <li><Link to="/user-dashboard">Home</Link></li>
-            <li><Link to="/user-profile">Profile</Link></li>
-            <li><Link to="/user-events">Events</Link></li>
-            <li><Link to="/user-requests">Requests</Link></li>
-            <li><Link to="/user-notifications">Notifications</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-          </ul>
-        </nav>
+        <UserNav />
       </div>
       <div>
         <h3>All Events:</h3>
