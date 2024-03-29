@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { collection, getDocs, query, where, doc, getDoc, updateDoc} from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { firestore } from '../../firebase/firebase';
 import { UserContext } from './UserContext';
 
@@ -31,7 +31,7 @@ export const NotificationProvider = ({ children }) => {
       }
     };
   
-    fetchUserNotifications ();
+    fetchUserNotifications();
   }, [user]);
 
   const toggleReadStatus = async (notificationId) => {
@@ -53,7 +53,6 @@ export const NotificationProvider = ({ children }) => {
       console.error('Error updating notification:', error.message);
     }
   }
-
 
   useEffect(() => {
     const count = notifications.filter(notification => !notification.read).length;

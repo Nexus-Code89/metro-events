@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './components/auth/Login.js';
+import Logout from './components/auth/Logout';
 import Register from './components/auth/Register.js';
-import Logout from './components/auth/Logout'; 
 // user
 import UserRoutes from './UserRoutes';
 import { UserProvider } from './components/contexts/UserContext.js';
@@ -12,17 +12,20 @@ import AdminEvents from './components/pages/admin/AdminEvents.js';
 import AdminRequests from './components/pages/admin/AdminRequests.js';
 // organizer
 import OrganizerDashboard from './components/dashboard/OrganizerDashboard';
-import OrganizerProfile from './components/pages/organizer/OrganizerProfile.js';
+import OrganizerCreateEvents from './components/pages/organizer/CreateEvent.js';
 import OrganizerEvents from './components/pages/organizer/OrganizerEvents.js';
-import OrganizerCreateEvents from './components/pages/organizer/CreateEvent.js'
+import OrganizerProfile from './components/pages/organizer/OrganizerProfile.js';
 import OrganizerRequests from './components/pages/organizer/OrganizerRequests.js';
 // css
+import { NotificationProvider } from './components/contexts/NotificationContext.js';
+import OrganizerNotifications from './components/pages/organizer/OrganizerNotifications.js';
 import './css/styles.css';
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
+      <NotificationProvider>
         <Routes>
           <Route path="/" element={<Login />} /> {/* Default route to Login */}
           <Route path="/login" element={<Login />} />
@@ -41,7 +44,9 @@ function App() {
           <Route path="/organizer-events" element={<OrganizerEvents />} />
           <Route path="/create-event" element={<OrganizerCreateEvents />} />
           <Route path="/organizer-requests" element={<OrganizerRequests />} />
+          <Route path="/organizer-notifications" element={<OrganizerNotifications />}></Route>
         </Routes>
+      </NotificationProvider>
       </UserProvider>
     </BrowserRouter>
   );

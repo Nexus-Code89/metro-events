@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
-import { firestore } from '../../../firebase/firebase';
-import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { firestore } from '../../../firebase/firebase';
 
 const CreateEvent = () => {
   const [eventName, setEventName] = useState('');
@@ -30,6 +30,9 @@ const CreateEvent = () => {
         startTime,
         endTime,
         attendees: [],
+        upvotes: [],
+        downvotes: [],
+        reviews: [],
       });
       console.log('Event created with ID:', docRef.id);
 

@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
+import { useContext, useState } from 'react';
 import { firestore } from '../../../firebase/firebase';
 import { UserContext } from '../../contexts/UserContext';
 
@@ -37,6 +37,8 @@ const EventRequestForm = ({ eventId, organizerId, organizerEmail, eventName, eve
     <div>
       <form onSubmit={handleSubmit}>
         <textarea
+          cols="50"
+          rows="6"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type your message here..."

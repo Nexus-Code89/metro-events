@@ -1,16 +1,20 @@
-import { useState, useEffect} from 'react';
-import { collection, getDocs, doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 import { firestore } from '../../../firebase/firebase';
 import OrganizerNav from './OrganizerNav';
 
 const OrganizerRequests = () => {
   const [requests, setRequests] = useState([]);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const requestsRef = collection(firestore, 'eventRequests');
-        const querySnapshot = await getDocs(requestsRef);
+        const eventsQuery = query(requestsRef, where('organizerId', '==', user.uid));
+        const querySnapshot = await getDocs(eventsQuery);
         const requestsList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setRequests(requestsList);
       } catch (error) {
